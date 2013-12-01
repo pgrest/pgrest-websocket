@@ -7,7 +7,7 @@ var plx
 
 # plugin interfaces
 export function process-opts (opts)
-  opts.websocket = opts.argv.websocket or ops.cfg.websocket
+  opts.websocket = opts.argv.websocket or opts.cfg.websocket
 
 export function isactive (opts)
   opts.websocket?
