@@ -1,0 +1,9 @@
+**/.DS_Store
+node_modules/*
+*.swp
+*.swo
+*~
+bin/*.js
+lib
+
+client/ref.js

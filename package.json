@@ -1,0 +1,42 @@
+{
+  "author": {
+    "name": [
+      "Chieh Po"
+    ],
+    "email": "poga.po@gmail.com"
+  },
+  "name": "pgrest-websocket",
+  "description": "pgrest plugin for websocket",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "bin": {
+    "pgrest": "bin/cmd.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clkao/pgrest.git"
+  },
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "lsc -cj package.ls &&\nlsc -bpc bin/cmd.ls > bin/cmd.js &&\nchmod 755 bin/cmd.js &&\nlsc -bc -o lib src &&\nlsc -bc client/ref.ls &&\nbrowserify client/index.js -o client/dist/pgbase.js"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "async": "0.2.x",
+    "socket.io": "*",
+    "socket.io-client": "*"
+  },
+  "peerDependencies": {
+    "pgrest": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "LiveScript": "1.2.x",
+    "browserify": "*",
+    "express": "*",
+    "pgrest": "*"
+  }
+}
