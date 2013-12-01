@@ -29,9 +29,9 @@ describe 'Socket' ->
     INSERT INTO bar (_id, info) values(1, 't1');
     INSERT INTO bar (_id, info) values(2, 't2');
     """
-    
+
     {mount-default,with-prefix} = pgrest.routes!
-    {mount-socket} = pgrest.socket!
+    {mount-socket} = require \../
     app := express!
     app.use express.cookieParser!
     app.use express.json!
