@@ -11,7 +11,7 @@ bin:
 repository:
   type: 'git'
 #TODO
-  url: 'git://github.com/clkao/pgrest.git'
+  url: 'git://github.com/poga/pgrest-websocket.git'
 scripts:
   test: """
     mocha

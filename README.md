@@ -1,10 +1,12 @@
 # Socket.io plugin for pgrest
 
-## Socket.io
+## Getting Started
 
 PgREST can handle socket.io connection with --websocket flag
 
-    pgrest --db test --websocket
+    pgrest-websocket --db test --websocket
+
+## Socket.io
 
 You can connect to PgREST with socket.io-client.
 All REST api is exposed to socket.io client as well. check [test](test/socket.ls) for usage.
@@ -42,4 +44,12 @@ check out example/pgbase/pgbase.html and client/ref.ls for some infomation.
 
 Document coming soon.
 
+# Used in PgRest APP.
+
+```
+require! pgrest
+require! pgrest-websocket
+pgrest.use pgrest-websocket
+app <- pgrest.cli! {}, {}, [], null, null
+```
 
