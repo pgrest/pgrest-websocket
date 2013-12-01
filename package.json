@@ -25,18 +25,17 @@
   },
   "dependencies": {
     "async": "0.2.x",
-    "socket.io": "*",
-    "socket.io-client": "*"
+    "socket.io": "0.9.x",
+    "socket.io-client": "0.9.x"
   },
   "peerDependencies": {
-    "pgrest": "*"
+    "pgrest": "0.1.x"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*",
+    "mocha": "1.14.x",
+    "chai": "1.8.x",
     "LiveScript": "1.2.x",
-    "browserify": "*",
-    "express": "*",
-    "pgrest": "*"
+    "browserify": "2.36.x",
+    "pgrest": "0.1.x"
   }
 }
