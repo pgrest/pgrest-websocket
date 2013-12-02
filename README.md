@@ -2,25 +2,24 @@
 
 ## Getting Started
 
-PgREST can handle socket.io connection with --websocket flag
+PgREST can handle socket.io connection with the --websocket flag
 
     pgrest-websocket --db test --websocket
 
 ## Socket.io
 
 You can connect to PgREST with socket.io-client.
-All REST api is exposed to socket.io client as well. check [test](test/socket.ls) for usage.
+All REST API is exposed to socket.io client as well; see [test](test/socket.ls) for usage.
 
     <script src="http://HOST:PORT/socket.io/socket.io.js"></script>
-
     <script>
     var socket = io.connect('http://HOST:PORT');
     socket.emit("GET:foo", function (result) {
       // result == REST API return value
     });
     </script>
-    
-More importantly, socket.io client can subscribe to a collection. Any new item being inserted into the collection will notify the client.
+
+More importantly, the socket.io client can subscribe to a collection. Any new item being inserted into the collection will notify the client.
 
     var socket = io.connect('http://HOST:PORT');
     s.on("CHANNEL:foo", function (data) {
