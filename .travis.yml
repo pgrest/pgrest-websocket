@@ -13,7 +13,7 @@ before_install:
   - sudo echo "host    all         all         127.0.0.1/32          trust" >> /etc/postgresql/$PGVERSION/main/pg_hba.conf
   - sudo echo "host    all         all         ::1/128               trust" >> /etc/postgresql/$PGVERSION/main/pg_hba.conf
   - sudo /etc/init.d/postgresql restart
-  - 'if [ "x$NPM_PGREST" == "xgit" ]; then npm i git://github.com/pgrest/pgrest#feature/plugin-mechanism-experimental; fi'
+  - 'if [ "x$NPM_PGREST" == "xgit" ]; then npm i git://github.com/pgrest/pgrest; fi'
 
 before_script:
   - createuser -U postgres -s travis
