@@ -15,10 +15,9 @@ All REST api is exposed to socket.io client as well. check [test](test/socket.ls
 
     <script>
     var socket = io.connect('http://HOST:PORT');
-    socket.on("complete", function (data) {
-      // data = REST API return value
+    socket.emit("GET:foo", function (result) {
+      // result == REST API return value
     });
-    socket.emit("GET:foo");
     </script>
     
 More importantly, socket.io client can subscribe to a collection. Any new item being inserted into the collection will notify the client.
