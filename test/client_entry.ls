@@ -31,7 +31,7 @@ describe 'Websocket Client on Entry' ->
     """
 
     {mount-default,with-prefix} = pgrest.routes!
-    {mount-socket} = pgrest.socket!
+    {mount-socket} = require \..
     app := express!
     app.use express.cookieParser!
     app.use express.json!
