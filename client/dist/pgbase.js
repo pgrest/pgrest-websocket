@@ -89,19 +89,19 @@ CollectionRef = (function(){
     });
   };
   prototype.off = function(event, cb){
-    var i$, ref$, len$, l, results$ = [];
+    var i$, ref$, len$, l;
     this.needConnection();
     if (cb) {
       for (i$ = 0, len$ = (ref$ = this.socket.listeners(this.tbl + ":" + event)).length; i$ < len$; ++i$) {
         l = ref$[i$];
         if (l === cb) {
-          results$.push(this.socket.removeListener(this.tbl + ":" + event, l));
+          this.socket.removeListener(this.tbl + ":" + event, l);
         }
       }
-      return results$;
     } else {
-      return this.socket.removeAllListeners(this.tbl + ":" + event);
+      this.socket.removeAllListeners(this.tbl + ":" + event);
     }
+    return this.socket.emit("UNSUBSCRIBE:" + this.tbl + ":" + event);
   };
   prototype.once = function(event, cb){
     var once_cb, this$ = this;
@@ -228,14 +228,15 @@ ColumnRef = (function(){
     if (event === 'value') {
       if (cb) {
         if (this.bare_cbs[cb]) {
-          return this.socket.removeListener(this.tbl + ":child_changed", this.bare_cbs[cb]);
+          this.socket.removeListener(this.tbl + ":child_changed", this.bare_cbs[cb]);
         }
       } else {
-        return this.socket.removeAllListeners(this.tbl + ":child_changed");
+        this.socket.removeAllListeners(this.tbl + ":child_changed");
       }
     } else {
       throw Error('unimplemented');
     }
+    return this.socket.emit("UNSUBSCRIBE:" + this.tbl + ":" + event);
   };
   prototype.once = function(event, cb){
     var once_cb, this$ = this;
@@ -363,14 +364,15 @@ EntryRef = (function(){
     if (event === 'value') {
       if (cb) {
         if (this.bare_cbs[cb]) {
-          return this.socket.removeListener(this.tbl + ":child_changed", this.bare_cbs[cb]);
+          this.socket.removeListener(this.tbl + ":child_changed", this.bare_cbs[cb]);
         }
       } else {
-        return this.socket.removeAllListeners(this.tbl + ":child_changed");
+        this.socket.removeAllListeners(this.tbl + ":child_changed");
       }
     } else {
       throw Error('unimplemented');
     }
+    return this.socket.emit("UNSUBSCRIBE:" + this.tbl + ":" + event, function(){});
   };
   prototype.once = function(event, cb){
     var once_cb, this$ = this;
