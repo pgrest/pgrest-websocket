@@ -149,6 +149,15 @@ describe 'Websocket Client on Collection' ->
           client.socket.listeners(\foo:value).length.should.eq 0
           done!
         client.on \value, cb
+      .. 'offed trigger should not receive futher events', (done) ->
+        cb = ->
+          # this should only triggered once
+          client.socket.listeners(\foo:value).length.should.eq 1
+          client.off \value, cb
+          client.socket.listeners(\foo:value).length.should.eq 0
+          <- client.push { _id: 3, bar: \insert }
+          done!
+        client.on \value, cb
     describe "Once callback", -> ``it``
       .. '.once callback should only fire once', (done) ->
         client.once \child_added, ->

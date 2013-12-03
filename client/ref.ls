@@ -69,6 +69,7 @@ class CollectionRef
           @socket.removeListener "#{@tbl}:#event", l
     else
       @socket.removeAllListeners "#{@tbl}:#event"
+    @socket.emit "UNSUBSCRIBE:#{@tbl}:#event"
 
   once: (event, cb) ->
     @need-connection!
@@ -167,6 +168,7 @@ class ColumnRef
         @socket.removeAllListeners "#{@tbl}:child_changed"
     else
       ...
+    @socket.emit "UNSUBSCRIBE:#{@tbl}:#event"
 
   once: (event, cb) ->
     @need-connection!
@@ -265,6 +267,7 @@ class EntryRef
         @socket.removeAllListeners "#{@tbl}:child_changed"
     else
       ...
+    <- @socket.emit "UNSUBSCRIBE:#{@tbl}:#event"
 
   once: (event, cb) ->
     @need-connection!

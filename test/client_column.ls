@@ -51,7 +51,7 @@ describe 'Websocket Client on Column' ->
     """
     client.disconnect!
     done!
-  describe 'Ref is on a collection', ->
+  describe 'Ref is on a column', ->
     describe "Reference", -> ``it``
       .. 'should have correct ref type', (done) ->
         client.refType.should.eq \column
@@ -94,6 +94,15 @@ describe 'Websocket Client on Column' ->
           client.socket.listeners(\foo:child_changed).length.should.eq 1
           client.off \value, cb
           client.socket.listeners(\foo:child_changed).length.should.eq 0
+          done!
+        client.on \value, cb
+      .. 'offed trigger should not receive futher events', (done) ->
+        cb = ->
+          # this should only triggered once
+          client.socket.listeners(\foo:child_changed).length.should.eq 1
+          client.off \value, cb
+          client.socket.listeners(\foo:child_changed).length.should.eq 0
+          <- client.set "replaced"
           done!
         client.on \value, cb
     describe "Once callback", -> ``it``
