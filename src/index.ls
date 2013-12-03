@@ -153,7 +153,12 @@ export function mount-model-socket-event (plx, schema, names, io, done)
             io.sockets.sockets[socket.id]?listen_table ?= []
             io.sockets.sockets[socket.id]?listen_table.push "#name:#event"
 
-            cb \OK
+            cb io.sockets.sockets[socket.id].listen_table
+          socket.on "UNSUBSCRIBE:#name:#event", (cb) ->
+            i = io.sockets.sockets[socket.id]?listen_table?indexOf "#name:#event"
+            io.sockets.sockets[socket.id].listen_table.splice(i, 1) unless i == -1
+
+            cb io.sockets.sockets[socket.id].listen_table
         )(event, name)
 
   done? names

@@ -133,8 +133,9 @@ describe 'Socket' ->
     describe 'SUBSCRIBE:#table:value', -> ``it``
       .. 'should create trigger and return OK', (done) ->
         <- socket.emit "SUBSCRIBE:foo:value"
+        it.should.deep.eq ["foo:value"]
         done!
-      .. 'should ...', (done) ->
+      .. 'should receive snapshot if triggered', (done) ->
         socket.on 'foo:value' ->
           it.length.should.eq 3
           done!
@@ -177,4 +178,18 @@ describe 'Socket' ->
           done!
         <- socket.emit "SUBSCRIBE:foo:value"
         <- socket.emit "POST:foo", { body: { _id: 3, bar: 'new'}}
+  describe 'UNSUBSCRIBE' ->
+    describe 'UNSUBSCRIBE:#table:value', -> ``it``
+      .. 'should remove event from socket\'s listen_table and return the listen_table', (done) ->
+        <- socket.emit "SUBSCRIBE:foo:value"
+        <- socket.emit "UNSUBSCRIBE:foo:value"
+        it.should.deep.eq []
+        done!
+      .. 'should only remove the event you want to remove', (done) ->
+        <- socket.emit "SUBSCRIBE:foo:value"
+        <- socket.emit "SUBSCRIBE:foo:child_added"
+        <- socket.emit "UNSUBSCRIBE:foo:value"
+        it.should.deep.eq ['foo:child_added']
+        done!
+
 

@@ -128,6 +128,15 @@ describe 'Websocket Client on Entry' ->
           client.socket.listeners(\foo:child_changed).length.should.eq 0
           done!
         client.on \value, cb
+      .. 'offed trigger should not receive futher events', (done) ->
+        cb = ->
+          # this should only triggered once
+          client.socket.listeners(\foo:child_changed).length.should.eq 1
+          client.off \value, cb
+          client.socket.listeners(\foo:child_changed).length.should.eq 0
+          <- client.set { _id: 1, bar: \replaced }
+          done!
+        client.on \value, cb
     describe "Once callback", -> ``it``
       .. '.once callback should only fire once', (done) ->
         <- client.once \value
