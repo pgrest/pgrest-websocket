@@ -106,6 +106,10 @@ describe 'Websocket Client on Column' ->
           done!
         client.on \value, cb
     describe "Once callback", -> ``it``
+      .. 'should return referenced column', (done) ->
+        client.once \value, ->
+          it.should.eq \test
+          done!
       .. '.once callback should only fire once', (done) ->
         client.once \value, ->
           client.socket.listeners(\foo:child_changed).length.should.eq 0
