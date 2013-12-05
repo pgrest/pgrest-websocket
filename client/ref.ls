@@ -35,13 +35,24 @@ class CollectionRef
 
   on: (event, cb) ->
     @need-connection!
-    @socket.on "#{@tbl}:#event", cb
+    filtered_cb = ~>
+      r = it
+      if @start
+        r = r.filter ~> it[@start.col] >= @start.value
+      if @end
+        r = r.filter ~> it[@end.col] <= @end.value
+      
+      cb r
+
+    @socket.on "#{@tbl}:#event", filtered_cb
+    @bare_cbs ?= {}
+    @bare_cbs[cb] = filtered_cb
 
     if event == \value
       # get current data from server and return it immediately
       <~ @socket.emit "SUBSCRIBE:#{@tbl}:#event"
       <~ @socket.emit "GETALL:#{@tbl}"
-      cb? it
+      filtered_cb? it
     else
       <~ @socket.emit "SUBSCRIBE:#{@tbl}:#event"
 
@@ -64,9 +75,10 @@ class CollectionRef
   off: (event, cb) ->
     @need-connection!
     if cb
-      for l in @socket.listeners "#{@tbl}:#event"
-        if l == cb
-          @socket.removeListener "#{@tbl}:#event", l
+      if @bare_cbs[cb]
+        for l in @socket.listeners "#{@tbl}:#event"
+          if l == @bare_cbs[cb]
+            @socket.removeListener "#{@tbl}:#event", l
     else
       @socket.removeAllListeners "#{@tbl}:#event"
     @socket.emit "UNSUBSCRIBE:#{@tbl}:#event"
@@ -92,6 +104,14 @@ class CollectionRef
 
   child: ->
     new Ref("#{@toString!}/#{it}", @opt)
+
+  start_at: (value, col) ->
+    @start = { col: col, value: value }
+    return @
+
+  end_at: (value, col) ->
+    @end = { col: col, value: value }
+    return @
 
 class ColumnRef
   (uri, opt) ->
@@ -190,6 +210,12 @@ class ColumnRef
     new Ref("#{@root!}/#{@tbl}/#{@id}", @opt)
 
   child: ->
+    ...
+
+  start_at: ->
+    ...
+
+  end_at: ->
     ...
       
 class EntryRef
@@ -291,6 +317,12 @@ class EntryRef
 
   child: ->
     new Ref("#{@toString!}/#{it}", @opt)
+
+  start_at: ->
+    ...
+
+  end_at: ->
+    ...
 
 class Ref
   (uri, opt) ->

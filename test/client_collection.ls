@@ -60,12 +60,14 @@ describe 'Websocket Client on Collection' ->
         client.on \value ->
           it.length.should.eq 2
           done!
-    describe "Events", -> ``it``
-      .. 'should trigger \'value\' when pushed', (done) ->
-        client.once \value ->
-          if it.length == 3
-            done!
-        client.push { _id: 3, bar: \insert }
+      .. 'should be able to use \'start_at\' to limit result', (done) ->
+        client.start_at(2, \_id).on \value ->
+          it.should.deep.eq [ { _id: 2, bar: \test2 }]
+          done!
+      .. 'should be able to use \'end_at\' to limit result', (done) ->
+        client.end_at(1, \_id).on \value ->
+          it.should.deep.eq [ { _id: 1, bar: \test }]
+          done!
     describe "Setting values", -> ``it``
       .. '.set should replace the whole collection', (done) ->
         <- client.set { _id: 1, bar: "replaced" }
@@ -165,6 +167,14 @@ describe 'Websocket Client on Collection' ->
           done!
         client.socket.listeners(\foo:child_added).length.should.eq 1
         client.push { _id:3, bar: \inserted }
+      .. '.once callback should properly deal with start_at filtering', (done) ->
+        client.start_at(2, \_id).once \value, ->
+          it.should.deep.eq [ { _id:2, bar: \test2 }]
+          done!
+      .. '.once callback should properly deal with end_at filtering', (done) ->
+        client.end_at(1, \_id).once \value, ->
+          it.should.deep.eq [ { _id:1, bar: \test }]
+          done!
     describe "toString", -> ``it``
       .. ".toString should return absolute url", (done) ->
         client.toString!should.eq "http://localhost:8080/foo"
