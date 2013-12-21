@@ -1,3 +1,4 @@
+{mount-socket} = require \./socket
 var plx
 
 # plugin interfaces
