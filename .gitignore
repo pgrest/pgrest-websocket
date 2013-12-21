@@ -7,3 +7,5 @@ bin/*.js
 lib
 
 client/ref.js
+
+/client/dist/
