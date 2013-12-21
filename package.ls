@@ -7,7 +7,7 @@ description: 'pgrest plugin for websocket'
 version: '0.0.1'
 main: \lib/index.js
 bin:
-  pgrest: 'bin/cmd.js'
+  pgrest-websocket: 'bin/cmd.js'
 repository:
   type: 'git'
 #TODO
